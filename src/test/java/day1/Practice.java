@@ -14,7 +14,7 @@ public class Practice {
     String name;
     String job;
 
-   // @Test (priority = 1)
+   @Test (priority = 1)
     void getRequest() {
         given()
 
@@ -24,6 +24,7 @@ public class Practice {
                 .statusCode(200)
                 .body("page", equalTo(2))
                 .log().all();
+        System.out.println("<<<<<<<<<< GET REQUEST >>>>>>>>>>>");
     }
 
      @Test(priority = 2)
@@ -58,7 +59,7 @@ public class Practice {
         System.out.println(job);
     }
 
-    @Test (priority = 3)
+    @Test (priority = 3, dependsOnMethods = "postRequest")
     void putRequest(){
         HashMap<String, String> updateData = new HashMap<>();
         updateData.put("name", "gulraiz");
@@ -83,6 +84,16 @@ public class Practice {
 
     }
 
-
+    @Test (priority = 4)
+    void deleteUser(){
+       given()
+               .when()
+               .delete("https://reqres.in/api/users/"+id)
+               .then()
+               .statusCode(204);
+        System.out.println("<<<<<<<<<<<<<<<<<<User deleted>>>>>>>>>>>>>");
+        System.out.println("name" + name);
+        System.out.println("Job" + job);
+    }
 
 }
